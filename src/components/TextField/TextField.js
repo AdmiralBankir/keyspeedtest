@@ -3,7 +3,7 @@ import React from 'react';
 const TextField = props => {
     return(
         <div>
-            Текстовое поле
+            {props.text}
         </div>
     );
 };
