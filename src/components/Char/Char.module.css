@@ -3,6 +3,7 @@
 	--invalid-color: #f36747;
 	padding: .02em;
 	letter-spacing: -.04em;
+	color: var(--color);
 }
 
 .Char__valid {

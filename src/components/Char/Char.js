@@ -8,9 +8,14 @@ const Char = props => {
 		cls.push(classes.Char__current)
 	}
 
-	if(props.isValid) {
+	if(props.isValid || props.isPassed) {
 		cls.push(classes.Char__valid)
 	}
+
+	if(props.isCurrent && !props.isValid) {
+		cls.push(classes.Char__invalid)
+	}
+
 		return(
 				<span className={cls.join(' ')}>{props.char}</span>
 		);

@@ -34,6 +34,11 @@ class TypeTest extends React.Component {
     }
 
 		async reloaded() {
+			const state = this.state;
+			state.loaded = false;
+			this.setState({
+				...state
+			})
 			this.fetchText();
 		}
 
