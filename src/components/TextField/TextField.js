@@ -1,10 +1,11 @@
 import React from 'react';
+import classes from './TextField.module.css';
 
 const TextField = props => {
     return(
-        <div>
+        <p className={classes.TextField}>
             {props.text}
-        </div>
+        </p>
     );
 };
 

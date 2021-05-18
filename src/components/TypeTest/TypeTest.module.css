@@ -1,0 +1,12 @@
+.TypeTest {
+    margin: 0 auto;
+    width: 80%;
+    max-width: 1000px;
+    min-height: 30vh;
+    border-radius: 8px;
+    display: grid;
+    grid-template-columns: 80% 20%;
+
+    padding: 20px;
+    background-color: #fff;
+}

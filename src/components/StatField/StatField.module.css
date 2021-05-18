@@ -1,0 +1,23 @@
+.StatField {
+	list-style: none;
+	margin: 0;
+	padding: 0;
+}
+
+.StatField>li {
+	display: flex;
+	flex-wrap: wrap;
+	flex-direction: column;
+}
+
+.StatField__iconWrapper {
+	display: flex;
+	align-items: center;
+	justify-content: space-evenly;
+}
+
+.StatField__text {
+	text-align: center;
+	color: #61dafb;
+	font-size: 22px;
+}
