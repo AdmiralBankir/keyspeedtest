@@ -2,6 +2,7 @@ import React from 'react';
 import TextField from '../TextField/TextField';
 import StatField from '../StatField/StatField';
 import Restart from '../Restart/Restart';
+import Loader from '../Loader/Loader';
 import getRequestBody from '../../support/fetchData';
 import axios from 'axios';
 
@@ -43,9 +44,7 @@ class TypeTest extends React.Component {
 		}
 
     render() {
-			const loader = (
-				<h1>Загрузка</h1>
-			);
+			const loader = <Loader/>;
 
 			const test = (
 				<main className={classes.TypeTest}>
