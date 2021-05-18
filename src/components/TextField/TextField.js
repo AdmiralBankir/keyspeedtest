@@ -64,6 +64,10 @@ class TextField extends React.Component {
 			});
 		}
 
+		componentWillUnmount() {
+			document.removeEventListener('keydown', this);
+		}
+
 		render() {
 			let rendered = (<div></div>);
 			const textField = (
