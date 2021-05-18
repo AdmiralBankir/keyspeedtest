@@ -5,17 +5,22 @@ import classes from './TextField.module.css';
 class TextField extends React.Component {
 		state = {
 			chars: [],
-			loaded: false
+			loaded: false,
+			currentChar: 0
 		};
 
 		componentDidMount() {
 			const chars = this.props.text.split('').map((char) => {
 				return {
 					value: char,
+					isPassed: false,
 					isValid: false,
-					isTouched: false
+					isCurrent: false
 				}
 			});
+
+			chars[0].isCurrent = true;
+			chars[0].isValid = true;
 
 			this.setState({
 				chars,
@@ -32,7 +37,7 @@ class TextField extends React.Component {
 							<Char
 								key={index}
 								char={char.value}
-								isTouched={char.isTouched}
+								isCurrent={char.isCurrent}
 								isValid={char.isValid}
 								 />
 						);
@@ -41,8 +46,11 @@ class TextField extends React.Component {
 			</p>
 			);
 
-			if (this.state.loaded) rendered = textField;
-				return rendered;
+			if (this.state.loaded) {
+				rendered = textField;
+			}
+
+			return rendered;
 		};
 };
 

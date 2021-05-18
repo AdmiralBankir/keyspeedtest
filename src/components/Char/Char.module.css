@@ -1,0 +1,19 @@
+.Char {
+	--valid-color: #5bc538;
+	--invalid-color: #f36747;
+	padding: .02em;
+	letter-spacing: -.04em;
+}
+
+.Char__valid {
+	--color: var(--valid-color);
+}
+
+.Char__invalid {
+	--color: var(--invalid-color);
+}
+
+.Char__current {
+	color: #ffff;
+	background-color: var(--color);
+}
