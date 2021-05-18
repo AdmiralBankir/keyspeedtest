@@ -11,7 +11,6 @@ class TypeTest extends React.Component {
     state = {
         loaded: false,
         text: '',
-				wordList: [],
 				stats: {
 					speed: 0,
 					accuracy: 100
@@ -39,19 +38,30 @@ class TypeTest extends React.Component {
 		}
 
     render() {
-        return(
-          <main className={classes.TypeTest}>
-            <TextField
-                text = {this.state.text}
-            />
-            <StatField
-								stats = {this.state.stats}
-						 />
-            <Restart
-							onClick={() => this.reloaded()}
-						/>
-          </main>
-        );
+			const loader = (
+				<h1>Загрузка</h1>
+			);
+
+			const test = (
+				<main className={classes.TypeTest}>
+					<TextField
+							text = {this.state.text}
+					/>
+					<StatField
+							stats = {this.state.stats}
+					 />
+					<Restart
+						onClick={() => this.reloaded()}
+					/>
+				</main>
+			);
+
+			let rendered = loader;
+
+			if(this.state.loaded)
+        rendered = test;
+
+			return rendered;
     };
 };
 
