@@ -22,18 +22,23 @@ class TextField extends React.Component {
 
 			let state= this.state;
 			const currentChar = state.chars[state.currentChar];
-			const prevCurrent = state.currentChar;
+			const prevCurrentIdx = state.currentChar;
 
 			if(currentChar.value === key) {
 				currentChar.isPassed = true;
 				currentChar.isCurrent = false;
 				state = this.updateCurrentChar(state);
-
 			} else {
 				currentChar.isValid = false;
 			}
 
-			state.chars[prevCurrent] = currentChar;
+			if(!currentChar.isTouched && !currentChar.isValid) {
+				this.props.updateAccuracy();
+			}
+
+			currentChar.isTouched = true;
+
+			state.chars[prevCurrentIdx] = currentChar;
 
 			this.setState({
 				...state
@@ -46,7 +51,8 @@ class TextField extends React.Component {
 					value: char,
 					isPassed: false,
 					isValid: false,
-					isCurrent: false
+					isCurrent: false,
+					isTouched: false
 				}
 			});
 
@@ -55,7 +61,8 @@ class TextField extends React.Component {
 
 			this.setState({
 				chars,
-				loaded: true
+				loaded: true,
+				stats: {...this.props.stats}
 			})
 
 			document.addEventListener('keydown', (evt) => {

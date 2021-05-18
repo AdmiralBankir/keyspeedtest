@@ -13,8 +13,9 @@ class TypeTest extends React.Component {
         loaded: false,
         text: '',
 				stats: {
-					speed: 0,
-					accuracy: 100
+					speed: Number,
+					accuracy: Number,
+					accDecrement: Number
 				}
     };
 
@@ -23,6 +24,11 @@ class TypeTest extends React.Component {
 				const response  = await axios.get(getRequestBody());
 				this.setState({
 						text: response.data,
+						stats: {
+							speed: 0,
+							accuracy: 100,
+							accDecrement: ((1 / response.data.length) * 100).toFixed(1)
+						},
 						loaded: true
 				})
 			} catch (e) {
@@ -43,6 +49,15 @@ class TypeTest extends React.Component {
 			this.fetchText();
 		}
 
+		updateAccuracy() {
+			const state = this.state;
+			const accuracy = state.stats.accuracy;
+			state.stats.accuracy = (accuracy - state.stats.accDecrement).toFixed(1);
+			this.setState({
+				...state
+			})
+		}
+
     render() {
 			const loader = <Loader/>;
 
@@ -50,6 +65,7 @@ class TypeTest extends React.Component {
 				<main className={classes.TypeTest}>
 					<TextField
 							text = {this.state.text}
+							updateAccuracy={this.updateAccuracy.bind(this)}
 					/>
 					<StatField
 							stats = {this.state.stats}
