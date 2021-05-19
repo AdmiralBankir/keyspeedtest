@@ -6,14 +6,42 @@ class TextField extends React.Component {
 		state = {
 			chars: [],
 			loaded: false,
-			currentChar: 0
+			numPassedChar: 0,
+			currentChar: 0,
+			isTouched: false
 		};
 
-		updateCurrentChar(state) {
+		updateState(state) {
 			state.currentChar++;
+			state.numPassedChar++;
 			const current = state.currentChar;
 			state.chars[current].isCurrent = true;
 			state.chars[current].isValid = true;
+			this.props.speedometer.updateSpeed(state.numPassedChar);
+			return state;
+		}
+
+		updateChar(isValidKey, char) {
+			if(isValidKey) {
+				char.isPassed = true;
+				char.isCurrent = false;
+				char.isValid = true;
+			} else {
+				char.isValid = false;
+			}
+
+			if(!char.isTouched && !char.isValid) {
+				this.props.updateAccuracy();
+			}
+
+			char.isTouched = true;
+
+			return char;
+		}
+
+		runSpeedometer(state) {
+			state.isTouched = true;
+			this.props.speedometer.run();
 			return state;
 		}
 
@@ -21,24 +49,23 @@ class TextField extends React.Component {
 			if(key === 'Shift' || key === 'Escape') return;
 
 			let state= this.state;
-			const currentChar = state.chars[state.currentChar];
-			const prevCurrentIdx = state.currentChar;
 
-			if(currentChar.value === key) {
-				currentChar.isPassed = true;
-				currentChar.isCurrent = false;
-				state = this.updateCurrentChar(state);
-			} else {
-				currentChar.isValid = false;
+			if(!state.isTouched) {
+				state = this.runSpeedometer(state);
 			}
 
-			if(!currentChar.isTouched && !currentChar.isValid) {
-				this.props.updateAccuracy();
+			const charIdx = state.currentChar;
+
+			let currentChar = state.chars[charIdx];
+			const isValidKey = currentChar.value === key;
+
+			currentChar = this.updateChar(isValidKey, currentChar);
+
+			if(isValidKey) {
+				state = this.updateState(state);
 			}
 
-			currentChar.isTouched = true;
-
-			state.chars[prevCurrentIdx] = currentChar;
+			state.chars[charIdx] = currentChar;
 
 			this.setState({
 				...state
