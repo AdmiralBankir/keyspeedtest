@@ -8,16 +8,25 @@ class TextField extends React.Component {
 			loaded: false,
 			numPassedChar: 0,
 			currentChar: 0,
-			isTouched: false
+			isTouched: false,
+			isFinished: false
 		};
 
 		updateState(state) {
 			state.currentChar++;
 			state.numPassedChar++;
-			const current = state.currentChar;
-			state.chars[current].isCurrent = true;
-			state.chars[current].isValid = true;
-			this.props.speedometer.updateSpeed(state.numPassedChar);
+			const isFinished = state.chars.length === state.numPassedChar;
+
+			if(isFinished) {
+				this.props.finishedTest();
+				document.removeEventListener('keydown', this);
+				state.isFinished = true;
+			} else {
+				const current = state.currentChar;
+				state.chars[current].isCurrent = true;
+				state.chars[current].isValid = true;
+				this.props.speedometer.updateSpeed(state.numPassedChar);
+			}
 			return state;
 		}
 
@@ -45,7 +54,20 @@ class TextField extends React.Component {
 			return state;
 		}
 
-		onKeyDown(key) {
+		handleEvent(evt) {
+			switch(evt.type) {
+					case 'keydown':
+						this.onKeyDown(evt);
+						break;
+					default:
+						break;
+			}
+		}
+
+		onKeyDown(evt) {
+			evt.preventDefault();
+			const key = evt.key;
+
 			if(key === 'Shift' || key === 'Escape') return;
 
 			let state= this.state;
@@ -63,6 +85,10 @@ class TextField extends React.Component {
 
 			if(isValidKey) {
 				state = this.updateState(state);
+			}
+
+			if(state.isFinished) {
+				return;
 			}
 
 			state.chars[charIdx] = currentChar;
@@ -92,10 +118,7 @@ class TextField extends React.Component {
 				stats: {...this.props.stats}
 			})
 
-			document.addEventListener('keydown', (evt) => {
-				evt.preventDefault();
-				this.onKeyDown(evt.key);
-			});
+			document.addEventListener('keydown', this);
 		}
 
 		componentWillUnmount() {

@@ -1,0 +1,51 @@
+.TestResult {
+	display: none;
+	position: fixed;
+	top: 40%;
+	left: 50%;
+	transform: translateY(-50%) translateX(-50%);
+	box-sizing: border-box;
+	z-index: 100500;
+	padding: 30px;
+	background: #ffff;
+	border-radius: 10px;
+	box-shadow: #3ca5f2 0 0 30px;
+	min-width: 520px;
+}
+
+.TestResult.active {
+	display: block;
+}
+
+.TestResult p {
+	text-align: center;
+}
+
+.TestResult__title {
+	text-transform: uppercase;
+	font-size: 25px;
+	font-weight: bold;
+}
+
+.TestResult ul {
+	width: max-content;
+  margin: 0 auto;
+	margin-bottom: 40px;
+}
+
+.TestResult li {
+	display: grid;
+	grid-template-columns: 1fr 1fr;
+	align-items: center;
+	column-gap: 15px;
+}
+
+.TestResult div {
+	display: grid;
+	grid-auto-flow: column;
+	column-gap: 8px;
+}
+
+.TestResult button {
+	margin: 0 auto;
+}

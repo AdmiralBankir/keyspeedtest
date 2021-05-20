@@ -3,6 +3,8 @@ import TextField from '../TextField/TextField';
 import StatField from '../StatField/StatField';
 import Restart from '../Restart/Restart';
 import Loader from '../Loader/Loader';
+import TestResult from '../TestResult/TestResult';
+import Overlay from '../../Layout/Overlay/Overlay';
 import getRequestBody from '../../support/fetchData';
 import KeySpeedometer from '../../support/KeySpeedometer';
 import axios from 'axios';
@@ -12,6 +14,7 @@ import classes from './TypeTest.module.css';
 class TypeTest extends React.Component {
     state = {
         loaded: false,
+				finished: true,
         text: '',
 				stats: {
 					speed: Number,
@@ -24,14 +27,15 @@ class TypeTest extends React.Component {
 			try {
 				const response  = await axios.get(getRequestBody());
 				this.setState({
-						text: response.data,
+						text: response.data.slice(-4),
 						stats: {
 							speed: 0,
 							accuracy: 100,
 							accDecrement: ((1 / response.data.length) * 100).toFixed(1),
 							keySpeedometer: new KeySpeedometer()
 						},
-						loaded: true
+						loaded: true,
+						finished: false
 				})
 			} catch (e) {
 				alert(e);
@@ -72,6 +76,16 @@ class TypeTest extends React.Component {
 			})
 		}
 
+		finishedTest() {
+			const state = this.state;
+			const speedometer = state.stats.keySpeedometer;
+			speedometer.destruct();
+			state.finished = true;
+			this.setState({
+				...state
+			})
+		}
+
     render() {
 			const loader = <Loader/>;
 
@@ -80,6 +94,7 @@ class TypeTest extends React.Component {
 					<TextField
 							text = {this.state.text}
 							updateAccuracy={this.updateAccuracy.bind(this)}
+							finishedTest={this.finishedTest.bind(this)}
 							speedometer = {this.state.stats.keySpeedometer}
 					/>
 					<StatField
@@ -88,6 +103,13 @@ class TypeTest extends React.Component {
 					<Restart
 						onClick={() => this.reloaded()}
 					/>
+					<TestResult
+						stats = {this.state.stats}
+						reloaded={() => this.reloaded()}
+						isActive = {this.state.finished}
+						/>
+					<Overlay
+						isActive = {this.state.finished} />
 				</main>
 			);
 
