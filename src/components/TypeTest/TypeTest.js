@@ -27,7 +27,7 @@ class TypeTest extends React.Component {
 			try {
 				const response  = await axios.get(getRequestBody());
 				this.setState({
-						text: response.data.slice(-4),
+						text: response.data,
 						stats: {
 							speed: 0,
 							accuracy: 100,
