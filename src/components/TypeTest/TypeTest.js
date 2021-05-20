@@ -45,10 +45,12 @@ class TypeTest extends React.Component {
 
 		async reloaded() {
 			const state = this.state;
+			const speedometer = state.stats.keySpeedometer;
 			state.loaded = false;
 			this.setState({
 				...state
 			})
+			speedometer.destruct();
 			this.fetchText();
 		}
 

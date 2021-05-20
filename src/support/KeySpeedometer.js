@@ -19,6 +19,10 @@ class KeySpeedometer {
 		this._intervalId = setInterval(() => this.calcSpeed(), UPDATE_INTERVAL);
 	}
 
+	destruct() {
+		clearInterval(this._intervalId);
+	}
+
 	updateSpeed(numKeys) {
 		this._numKeys = numKeys;
 	}
@@ -26,7 +30,6 @@ class KeySpeedometer {
 	calcSpeed() {
 		const currentTime = new Date();
 		const timeDiff = (currentTime - this._timeInit) / 1000;  //in sec
-
 		this._speed = Math.floor(this._numKeys / timeDiff * INTEGRATE_COEFF );
 	}
 
